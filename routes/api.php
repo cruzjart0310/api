@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::resource('users', 'Users\UserController');
+Route::resource('users.roles', 'Users\UserRoleController', ['only' =>['index', 'store']]);
+Route::resource('users.permissions', 'Users\UserPermissionController', ['only' =>['index', 'store']]);
