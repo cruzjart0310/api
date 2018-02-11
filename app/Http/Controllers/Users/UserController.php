@@ -17,16 +17,7 @@ class UserController extends Controller
     {
         // return User::find(1)->permissions;
         // with('permissions')->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return User::all();
     }
 
     /**
@@ -37,16 +28,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed'
+        ];
+
+        $this->validate($request, $rules);
+
+
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
-
         ];
 
         $user = User::create($data);
-
-        return $user->id;
     }
 
     /**
@@ -57,7 +54,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return User::find($user);
+        return User::finOrFail($user);
     }
 
     /**
