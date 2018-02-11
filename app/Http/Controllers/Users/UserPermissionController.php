@@ -41,6 +41,6 @@ class UserPermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->server);
     }
 }
