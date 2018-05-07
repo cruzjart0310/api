@@ -4,10 +4,18 @@ namespace App\Http\Controllers\Users;
 
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
+use App\Strategies\StrategyCounter;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
+    protected $strategyCounter;
+
+
+    function __construct(StrategyCounter $strategyCounter) {
+        $this->strategyCounter = $strategyCounter;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +23,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        // return User::find(1)->permissions;
-        // with('permissions')->get();
-        return User::all();
+        $users = User::all();
+
+        return $this->showAll($users);
     }
 
     /**
